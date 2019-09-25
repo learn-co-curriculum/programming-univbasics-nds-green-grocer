@@ -54,9 +54,11 @@ encountered earlier of getting insights from our nested data structures. Step
 one of that process is to understand the nested data structures we're working
 with.
 
-Take a moment to think about our cart of items. The cart starts as an array
-of individual items, right? We want to translate it into a hash that includes
-the counts for each item with the `consolidate_cart` method.
+Take a moment to think about our cart of items. The cart starts as an array of
+individual items, right? What items do we have? What attributes do they have?
+
+Now, we want to translate that array into a hash that includes the counts for
+each item with a `consolidate_cart` method.
 
 For instance, if the method is given the array below:
 
@@ -115,9 +117,9 @@ consolidated cart. Since the coupon only applies to 2 avocados, the cart
 shows there is one remaining avocado at $3.00 and a count of _2_ discounted
 avocados.
 
-As we want to be consistent in the way our data is structured,
-each item in the consolidated cart should include the price of _one_ of that
-item. Even though the coupon states $5.00, since there are 2 avocados, the
+Note: we want to be consistent in the way our data is structured, so each item
+in the consolidated cart should include the price of _one_ of that item. For
+example, even though the coupon states $5.00—because there are 2 avocados—the
 price is listed as $2.50.
 
 ### Write the `apply_clearance` Method
@@ -150,41 +152,45 @@ helpful here to make sure your values align.
 
 ### Write the `checkout` Method
 
-Create a `checkout` method that calculates the total cost of the consolidated
-cart. Just like a customer arriving at a register with mixed up cart, this
-method is given an array of unsorted items. In addition to an array of items,
-`checkout` is also given an array of _coupons_.
+Now it's time to calculate the total cost of the cart with a `checkout` method.
+Since most customers arrive at a register with a cart full of items in no
+particular order, this method will take an array of unsorted items. It will also
+have an array of _coupons_.
 
-The `checkout` method will need to utilize all the previous methods we've
-written. It consolidates the cart, applies coupons, and applies discounts. Then,
-it totals the cost of the entire cart, accounting for each item and their
-prices, and returns this value.
+The `checkout` method will need to use all the previous methods we've written.
+It _consolidates_ the cart, _applies coupons_, and _applies discounts_. Then, it
+_totals the cost of the entire cart_, accounting for each item and their prices,
+and returns this value.
 
-When writing this method, make sure to address each step in the proper order:
+As you write this method, make sure to address each step in the proper order:
 
-- Consolidate the cart array into a hash
+1. Consolidate the cart array into a hash
 
-- Apply coupon discounts if the proper number of items are present
+2. Apply coupon discounts if the proper number of items are present
 
-- Apply 20% discount if items are on clearance
+3. Apply 20% discount if items are on clearance
 
-In addition to coupons and clearance, our grocer store offers a deal for
+In addition to coupons and clearance, our grocery store offers a deal for
 customers buying lots of items: if, after all coupons and discounts, the cart's
 total is over $100, the customer gets an additional 10% off. Apply this
 discount when appropriate.
 
 ## Conclusion
 
-Utilizing arrays and hashes is key when working with a lot of data. With our
+When working with a lot of data, utilizing arrays and hashes is key. With our
 knowledge of iteration and data manipulation, we can do all sorts of things with
 this data. We can build methods that access that data and modify only what we
 want. We can extract additional information, as we did here calculating a total.
 We can take data that isn't helpful to us and restructure it to be _exactly_
-what we need.
+what we need. Most importantly, we can process this data in a way that lets us
+extract relevant insights that have meaning in the real world. The better we can
+structure our programs to represent people and the actions they need to perform,
+the easier we can make our programs necessary to users.
 
 ## Resources
 
 - [round][round]
+- [Nested Data Structures to Insights](https://github.com/learn-co-curriculum/programming-univbasics-nds-nds-to-insights)
 
 [round]: https://ruby-doc.org/core-2.1.2/Float.html#method-i-round
 
