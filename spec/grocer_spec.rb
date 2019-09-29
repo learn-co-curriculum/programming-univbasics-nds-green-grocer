@@ -308,7 +308,6 @@ describe "Grocer" do
     end
 
     describe "clearance:" do
-
       it "applies a 20% discount to items on clearance" do
         cart = [find_item('PEANUTBUTTER')]
         total_cost = checkout(cart, [])
