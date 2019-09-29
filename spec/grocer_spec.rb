@@ -45,7 +45,7 @@ describe "Grocer" do
   end
   describe "#consolidate_cart" do
     it "adds a count of one to each item when there are no duplicates" do
-      cart = [find_item('TEMPEH'), find_item('PEANUTBUTTER'), find_item('ALMONDS')]
+      cart = [find_item_by_name_in_collection('TEMPEH', items), find_item_by_name_in_collection('PEANUTBUTTER', items), find_item_by_name_in_collection('ALMONDS', items)]
       result = consolidate_cart(cart)
       i = 0
       while i < result.length do
@@ -55,8 +55,8 @@ describe "Grocer" do
     end
 
     it "increments count when there are multiple items" do
-      avocado = find_item('AVOCADO')
-      cart = [avocado, avocado, find_item('KALE')]
+      avocado = find_item_by_name_in_collection('AVOCADO', items)
+      cart = [avocado, avocado, find_item_by_name_in_collection('KALE', items)]
 
       result = consolidate_cart(cart)
       av = find_item_by_name_in_collection("AVOCADO", result)
@@ -136,7 +136,7 @@ describe "Grocer" do
 
     context "more advanced cases:" do
       it "doesn't break if the coupon doesn't apply to any items" do
-        cheese = find_item('CHEESE')
+        cheese = find_item_by_name_in_collection('CHEESE', items)
         cart = [cheese, cheese]
         consolidated_cart = consolidate_cart(cart)
 
@@ -177,7 +177,7 @@ describe "Grocer" do
       end
 
       it "doesn't break if there is no coupon" do
-        cheese = find_item('CHEESE')
+        cheese = find_item_by_name_in_collection('CHEESE', items)
         cart = [cheese, cheese]
         consolidated_cart = consolidate_cart(cart)
         apply_coupons(consolidated_cart, [])
@@ -193,7 +193,7 @@ describe "Grocer" do
 
   describe "#apply_clearance" do
     it "takes 20% off price if the item is on clearance" do
-      cart = [find_item('TEMPEH')]
+      cart = [find_item_by_name_in_collection('TEMPEH', items)]
       consolidated_cart = consolidate_cart(cart)
 
       apply_clearance(consolidated_cart)
@@ -228,7 +228,7 @@ describe "Grocer" do
       end
 
       it "calls on #apply_coupons after calling on #consolidate_cart when there is only one item in the cart" do
-        cart = [find_item('BEETS')]
+        cart = [find_item_by_name_in_collection('BEETS', items)]
 
         consolidated = consolidate_cart(cart)
         apply_coupons(consolidated, [])
@@ -237,7 +237,7 @@ describe "Grocer" do
       end
 
       it "calls on #apply_clearance after calling on #apply_coupons when there is only one item in the cart and no coupon" do
-        cart = [find_item('BEETS')]
+        cart = [find_item_by_name_in_collection('BEETS', items)]
 
         consolidated = consolidate_cart(cart)
         coupons_applied = apply_coupons(consolidated, [])
@@ -248,8 +248,8 @@ describe "Grocer" do
       end
 
       it "calls on #apply_clearance after calling on #apply_coupons with multiple items and one coupon" do
-        beer = find_item('BEER')
-        cart = [find_item('BEETS'), beer, beer, beer]
+        beer = find_item_by_name_in_collection('BEER', items)
+        cart = [find_item_by_name_in_collection('BEETS', items), beer, beer, beer]
         c = [coupons[1]]
 
         consolidated = consolidate_cart(cart)
@@ -270,13 +270,13 @@ describe "Grocer" do
       end
 
       it "calls on #consolidate_cart before calculating the total for two different items" do
-        cart = [find_item('CHEESE'), find_item('BEETS')]
+        cart = [find_item_by_name_in_collection('CHEESE', items), find_item_by_name_in_collection('BEETS', items)]
         consolidate_cart(cart)
         expect(checkout(cart, [])).to eq(9.00)
       end
 
       it "calls on #consolidate_cart before calculating the total for two identical items" do
-        beets = find_item('BEETS')
+        beets = find_item_by_name_in_collection('BEETS', items)
         cart = Array.new(2, beets)
         consolidate_cart(cart)
         expect(checkout(cart, [])).to eq(5.00)
@@ -285,14 +285,14 @@ describe "Grocer" do
 
     describe "coupons:" do
       it "considers coupons" do
-        cheese = find_item('CHEESE')
+        cheese = find_item_by_name_in_collection('CHEESE', items)
         cart = [cheese, cheese, cheese]
         c = [coupons.last]
         expect(checkout(cart, c)).to eq(15.00)
       end
 
       it "considers coupons and clearance discounts" do
-        avocado = find_item('AVOCADO')
+        avocado = find_item_by_name_in_collection('AVOCADO', items)
         cart = [avocado, avocado]
         c = [coupons.first]
         expect(checkout(cart, c)).to eq(4.00)
@@ -309,13 +309,13 @@ describe "Grocer" do
 
     describe "clearance:" do
       it "applies a 20% discount to items on clearance" do
-        cart = [find_item('PEANUTBUTTER')]
+        cart = [find_item_by_name_in_collection('PEANUTBUTTER', items)]
         total_cost = checkout(cart, [])
         expect(total_cost).to eq(2.40)
       end
 
       it "applies a 20% discount to items on clearance but not to non-clearance items" do
-        cart = [find_item("BEETS"), find_item("PEANUTBUTTER")]
+        cart = [find_item_by_name_in_collection("BEETS", items), find_item_by_name_in_collection("PEANUTBUTTER", items)]
         total_cost = checkout(cart, [])
         expect(total_cost).to eq(4.90)
       end
@@ -323,7 +323,7 @@ describe "Grocer" do
 
     describe "discount of ten percent" do
       it "applies 10% discount if cart over $100" do
-        beer = find_item('BEER')
+        beer = find_item_by_name_in_collection('BEER', items)
         cart = Array.new(10, beer)
         expect(checkout(cart, [])).to eq(117.00)
       end

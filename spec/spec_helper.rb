@@ -10,8 +10,3 @@ require_relative '../grocer.rb'
 RSpec.configure do |config|
   # config here
 end
-
-def find_item(name)
-  items.find { |item| item[:item] == name }
-end
-
