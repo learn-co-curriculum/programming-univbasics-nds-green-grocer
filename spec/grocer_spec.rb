@@ -47,9 +47,10 @@ describe "Grocer" do
     it "adds a count of one to each item when there are no duplicates" do
       cart = [find_item('TEMPEH'), find_item('PEANUTBUTTER'), find_item('ALMONDS')]
       result = consolidate_cart(cart)
-      result.each do |item, attributes|
-        expect(attributes.keys).to include(:count)
-        expect(attributes[:count]).to eq(1)
+      i = 0
+      while i < result.length do
+        expect(result[i][:count]).to eq(1)
+        i += 1
       end
     end
 
