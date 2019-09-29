@@ -132,7 +132,6 @@ describe "Grocer" do
         found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
         expect(found_item[:clearance]).to eq(true)
       end
-
     end
 
     context "more advanced cases:" do
