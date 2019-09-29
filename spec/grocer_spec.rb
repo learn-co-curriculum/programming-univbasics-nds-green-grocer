@@ -298,14 +298,6 @@ describe "Grocer" do
         expect(checkout(cart, c)).to eq(4.00)
       end
 
-      # I think this is bad...and werid.
-      # it "charges full price for items that fall outside of coupon count" do
-      #   beer = find_item('BEER')
-      #   cart = Array.new(3, beer)
-      #   coupons = [find_coupon("BEER")]
-      #   expect(checkout(cart, coupons)).to eq(33.00)
-      # end
-
       it "only applies coupons that meet minimum amount" do
         beer = find_item_by_name_in_collection('BEER', items)
         cart = [beer, beer, beer]
