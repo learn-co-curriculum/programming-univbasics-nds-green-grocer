@@ -73,33 +73,64 @@ describe "Grocer" do
 
   describe "#apply_coupons" do
     context "base case - with perfect coupon (number of items identical):" do
-      before(:each) do
-        @avocado = find_item('AVOCADO')
-        @avocado_coupon = coupons.find { |coupon| coupon[:item] == "AVOCADO" }
-        @cart = [@avocado, @avocado]
-        @consolidated_cart = consolidate_cart(@cart)
-        @avocado_result = apply_coupons(@consolidated_cart, [@avocado_coupon])
-      end
-
       it "adds a new key, value pair to the cart hash called 'ITEM NAME W/COUPON'" do
-        expect(@avocado_result.keys).to include("AVOCADO W/COUPON")
+        item_name = "AVOCADO"
+        item_with_coupon_applied_name = "#{item_name} W/COUPON"
+        avocado = find_item_by_name_in_collection(item_name, items)
+        avocado_coupon = coupons.first
+        perfect_avocado_cart = [ avocado, avocado ]
+        consolidated_cart = consolidate_cart(perfect_avocado_cart)
+        apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        expect(found_item).to_not be_nil, "After applying valid coupons make sure you add the applied coupon Hash"
       end
 
       it "adds the coupon price to the property hash of couponed item" do
-        expect(@avocado_result["AVOCADO W/COUPON"][:price]).to eq(2.50)
+        item_name = "AVOCADO"
+        item_with_coupon_applied_name = "#{item_name} W/COUPON"
+        avocado = find_item_by_name_in_collection(item_name, items)
+        avocado_coupon = coupons.first
+        perfect_avocado_cart = [ avocado, avocado ]
+        consolidated_cart = consolidate_cart(perfect_avocado_cart)
+        apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        expect(found_item[:price]).to eq(2.50), "After applying a $5 for 2 coupon to avocadoes, the price per unit is 2.50"
       end
 
       it "adds the count number to the property hash of couponed item" do
-        expect(@avocado_result["AVOCADO W/COUPON"][:count]).to eq(2)
+        item_name = "AVOCADO"
+        item_with_coupon_applied_name = "#{item_name} W/COUPON"
+        avocado = find_item_by_name_in_collection(item_name, items)
+        avocado_coupon = coupons.first
+        perfect_avocado_cart = [ avocado, avocado ]
+        consolidated_cart = consolidate_cart(perfect_avocado_cart)
+        apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        expect(found_item[:count]).to eq(2), "The coupon's count should remain unchanged"
       end
 
       it "removes the number of discounted items from the original item's count" do
-        expect(@avocado_result["AVOCADO"][:price]).to eq(3.00)
-        expect(@avocado_result["AVOCADO"][:count]).to eq(0)
+        item_name = "AVOCADO"
+        avocado = find_item_by_name_in_collection(item_name, items)
+        avocado_coupon = coupons.first
+        perfect_avocado_cart = [ avocado, avocado ]
+        consolidated_cart = consolidate_cart(perfect_avocado_cart)
+        apply_coupons(consolidated_cart, [avocado_coupon])
+        original_item = find_item_by_name_in_collection(item_name, perfect_avocado_cart)
+        expect(original_item[:price]).to eq(3.00)
+        expect(original_item[:count]).to eq(0)
       end
 
       it "remembers if the item was on clearance" do
-        expect(@avocado_result["AVOCADO W/COUPON"][:clearance]).to eq(true)
+        item_name = "AVOCADO"
+        item_with_coupon_applied_name = "#{item_name} W/COUPON"
+        avocado = find_item_by_name_in_collection(item_name, items)
+        avocado_coupon = coupons.first
+        perfect_avocado_cart = [ avocado, avocado ]
+        consolidated_cart = consolidate_cart(perfect_avocado_cart)
+        apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        expect(found_item[:clearance]).to eq(true)
       end
 
     end
