@@ -135,21 +135,6 @@ describe "Grocer" do
     end
 
     context "more advanced cases:" do
-
-      it "accounts for when there are more items than the coupon allows" do
-        cheese = find_item('CHEESE')
-        cart = Array.new(5, cheese)
-        consolidated_cart = consolidate_cart(cart)
-        cheese_coupon = find_coupon("CHEESE")
-        cheese_result = apply_coupons(consolidated_cart, [cheese_coupon])
-
-        expect(cheese_result["CHEESE"][:price]).to eq(6.50)
-        expect(cheese_result["CHEESE"][:count]).to eq(2)
-        expect(cheese_result["CHEESE W/COUPON"][:price]).to eq(5.00)
-        expect(cheese_result["CHEESE W/COUPON"][:count]).to eq(3)
-        expect(cheese_result["CHEESE W/COUPON"][:clearance]).to eq(false)
-      end
-
       it "doesn't break if the coupon doesn't apply to any items" do
         cheese = find_item('CHEESE')
         cart = Array.new(2, cheese)
