@@ -210,17 +210,26 @@ describe "Grocer" do
       cart = [find_item('TEMPEH')]
       consolidated_cart = consolidate_cart(cart)
 
-      result = apply_clearance(consolidated_cart)
-      expect(result["TEMPEH"][:price]).to eq(2.40)
+      apply_clearance(consolidated_cart)
+      expect(consolidated_cart.first[:price]).to be_within(0.1).of(2.40)
     end
 
     it "does not discount the price for items not on clearance" do
-      cart = [find_item('AVOCADO'), find_item('TEMPEH'), find_item('BEETS'), find_item('SOY MILK')]
+      cart = [
+        find_item_by_name_in_collection('AVOCADO', items),
+        find_item_by_name_in_collection('TEMPEH', items),
+        find_item_by_name_in_collection('BEETS', items),
+        find_item_by_name_in_collection('SOY MILK', items)
+      ]
       consolidated_cart = consolidate_cart(cart)
-      result = apply_clearance(consolidated_cart)
+      apply_clearance(consolidated_cart)
       clearance_prices = {"AVOCADO" => 2.40, "TEMPEH" => 2.40, "BEETS" => 2.50, "SOY MILK" => 3.60}
-      result.each do |name, properties|
-        expect(properties[:price]).to eq(clearance_prices[name])
+
+      i = 0
+      while  i < consolidated_cart.length do
+        item = consolidated_cart[i]
+        expect(item[:price]).to be_within(0.1).of(clearance_prices[item[:item]])
+        i += 1
       end
     end
   end
