@@ -250,7 +250,7 @@ describe "Grocer" do
       it "calls on #apply_clearance after calling on #apply_coupons with multiple items and one coupon" do
         beer = find_item('BEER')
         cart = [find_item('BEETS'), beer, beer, beer]
-        coupons = [find_coupon('BEER')]
+        c = [coupons[1]]
 
         consolidated = consolidate_cart(cart)
         coupons_applied = apply_coupons(consolidated, coupons)
