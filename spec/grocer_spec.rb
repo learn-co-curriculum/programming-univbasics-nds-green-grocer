@@ -237,7 +237,6 @@ describe "Grocer" do
   describe "#checkout" do
     describe "in base case (no clearance, no coupons)" do
       it "calls on #consolidate_cart before calculating the total for one item" do
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(result)
         cart = [find_item_by_name_in_collection('BEETS', items)]
         expect(checkout(cart, [])).to eq(2.50)
       end
@@ -247,9 +246,6 @@ describe "Grocer" do
 
         consolidated = consolidate_cart(cart)
         coupons_applied = apply_coupons(consolidated, [])
-
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(consolidated)
-        expect(self).to receive(:apply_coupons).with(consolidated, []).and_return(coupons_applied)
 
         expect(checkout(cart, [])).to eq(2.50)
       end
@@ -261,13 +257,9 @@ describe "Grocer" do
         coupons_applied = apply_coupons(consolidated, [])
         clearance_applied = apply_clearance(coupons_applied)
 
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(consolidated)
-        expect(self).to receive(:apply_coupons).with(consolidated, []).and_return(coupons_applied)
-        expect(self).to receive(:apply_clearance).with(coupons_applied).and_return(clearance_applied)
 
         expect(checkout(cart, [])).to eq(2.50)
       end
-
 
       it "calls on #apply_clearance after calling on #apply_coupons with multiple items and one coupon" do
         beer = find_item('BEER')
@@ -278,9 +270,6 @@ describe "Grocer" do
         coupons_applied = apply_coupons(consolidated, coupons)
         clearance_applied = apply_clearance(coupons_applied)
 
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(consolidated)
-        expect(self).to receive(:apply_coupons).with(consolidated, coupons).and_return(coupons_applied)
-        expect(self).to receive(:apply_clearance).with(coupons_applied).and_return(clearance_applied)
 
         expect(checkout(cart, coupons)).to eq(35.50)
       end
@@ -296,9 +285,6 @@ describe "Grocer" do
         coupons_applied = apply_coupons(consolidated, coupons)
         clearance_applied = apply_clearance(coupons_applied)
 
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(consolidated)
-        expect(self).to receive(:apply_coupons).with(consolidated, coupons).and_return(coupons_applied)
-        expect(self).to receive(:apply_clearance).with(coupons_applied).and_return(clearance_applied)
 
         expect(checkout(cart, coupons)).to eq(22.60)
       end
@@ -306,7 +292,6 @@ describe "Grocer" do
       it "calls on #consolidate_cart before calculating the total for two different items" do
         cart = [find_item('CHEESE'), find_item('BEETS')]
         result = consolidate_cart(cart)
-        expect(self).to receive(:consolidate_cart).with(cart).and_return(result)
         expect(checkout(cart, [])).to eq(9.00)
       end
 
@@ -314,7 +299,6 @@ describe "Grocer" do
         beets = find_item('BEETS')
         cart = Array.new(2, beets)
         result = consolidate_cart(cart)
-        #expect(self).to receive(:consolidate_cart).with(cart).and_return(result)
         expect(checkout(cart, [])).to eq(5.00)
       end
     end
