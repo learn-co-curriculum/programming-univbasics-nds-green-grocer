@@ -59,13 +59,15 @@ describe "Grocer" do
       cart = [avocado, avocado, find_item('KALE')]
 
       result = consolidate_cart(cart)
-      expect(result["AVOCADO"][:price]).to eq(3.00)
-      expect(result["AVOCADO"][:clearance]).to eq(true)
-      expect(result["AVOCADO"][:count]).to eq(2)
+      av = find_item_by_name_in_collection("AVOCADO", result)
+      expect(av[:price]).to eq(3.00)
+      expect(av[:clearance]).to eq(true)
+      expect(av[:count]).to eq(2)
 
-      expect(result["KALE"][:price]).to eq(3.00)
-      expect(result["KALE"][:clearance]).to eq(false)
-      expect(result["KALE"][:count]).to eq(1)
+      hipster_lettuce = find_item_by_name_in_collection("KALE", result)
+      expect(hipster_lettuce[:price]).to eq(3.00)
+      expect(hipster_lettuce[:clearance]).to eq(false)
+      expect(hipster_lettuce[:count]).to eq(1)
     end
   end
 
