@@ -43,6 +43,7 @@ describe "Grocer" do
       end
     end
   end
+
   describe "#consolidate_cart" do
     it "adds a count of one to each item when there are no duplicates" do
       cart = [find_item_by_name_in_collection('TEMPEH', items), find_item_by_name_in_collection('PEANUTBUTTER', items), find_item_by_name_in_collection('ALMONDS', items)]
@@ -277,7 +278,7 @@ describe "Grocer" do
 
       it "calls on #consolidate_cart before calculating the total for two identical items" do
         beets = find_item_by_name_in_collection('BEETS', items)
-        cart = Array.new(2, beets)
+        cart = [beets, beets]
         consolidate_cart(cart)
         expect(checkout(cart, [])).to eq(5.00)
       end
@@ -324,7 +325,8 @@ describe "Grocer" do
     describe "discount of ten percent" do
       it "applies 10% discount if cart over $100" do
         beer = find_item_by_name_in_collection('BEER', items)
-        cart = Array.new(10, beer)
+        cart = []
+        10.times { cart << beer }
         expect(checkout(cart, [])).to eq(117.00)
       end
     end
