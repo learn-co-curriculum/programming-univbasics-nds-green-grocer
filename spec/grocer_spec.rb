@@ -23,6 +23,26 @@ describe "Grocer" do
     ]
   end
 
+  describe "#find_item_by_name_in_collection takes two arguments: a String and an AoH" do
+    let(:test_cart) do
+      [
+        { :item => "DOG FOOD" },
+        { :item => "WINE" },
+        { :item => "STRYCHNINE" }
+      ]
+    end
+
+    describe "and when a contained Hash's :item key matches the String" do
+      it "returns the matching Hash" do
+        expect(find_item_by_name_in_collection("WINE", test_cart)).to_not be_nil
+      end
+    end
+    describe "but when no contained Hash's :item key matches the String" do
+      it "returns the matching nil" do
+        expect(find_item_by_name_in_collection("AXLE GREASE", test_cart)).to be_nil
+      end
+    end
+  end
   describe "#consolidate_cart" do
     it "adds a count of one to each item when there are no duplicates" do
       cart = [find_item('TEMPEH'), find_item('PEANUTBUTTER'), find_item('ALMONDS')]
