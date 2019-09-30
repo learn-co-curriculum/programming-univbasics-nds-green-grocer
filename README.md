@@ -186,9 +186,9 @@ then `apply_coupons` should change the first Array to look like:
 
 ```ruby
 [
-  {"AVOCADO", :price => 3.00, :clearance => true, :count => 1},
-  {"KALE", :price => 3.00, :clearance => false, :count => 1},
-  {"AVOCADO W/COUPON", :price => 2.50, :clearance => true, :count => 2}
+  {:item => "AVOCADO", :price => 3.00, :clearance => true, :count => 1},
+  {:item => "KALE", :price => 3.00, :clearance => false, :count => 1},
+  {:item => "AVOCADO W/COUPON", :price => 2.50, :clearance => true, :count => 2}
 ]
 ```
 
@@ -219,9 +219,9 @@ Given:
 
 ```ruby
 [
-  {"PEANUT BUTTER", :price => 3.00, :clearance => true,  :count => 2},
-  {"KALE", :price => 3.00, :clearance => false, :count => 3},
-  {"SOY MILK", :price => 4.50, :clearance => true,  :count => 1}
+  {:item => "PEANUT BUTTER", :price => 3.00, :clearance => true,  :count => 2},
+  {:item => "KALE", :price => 3.00, :clearance => false, :count => 3},
+  {:item => "SOY MILK", :price => 4.50, :clearance => true,  :count => 1}
 ]
 ```
 
@@ -229,9 +229,9 @@ it should update the cart with clearance applied to PEANUT BUTTER and SOY MILK:
 
 ```ruby
 [
-  {"PEANUT BUTTER", :price => 2.40, :clearance => true,  :count => 2},
-  {"KALE", :price => 3.00, :clearance => false, :count => 3},
-  {"SOY MILK", :price => 3.60, :clearance => true,  :count => 1}
+  {:item => "PEANUT BUTTER", :price => 2.40, :clearance => true,  :count => 2},
+  {:item => "KALE", :price => 3.00, :clearance => false, :count => 3},
+  {:item => "SOY MILK", :price => 3.60, :clearance => true,  :count => 1}
 ]
 ```
 
@@ -248,9 +248,8 @@ helpful here to make sure your values align. `2.4900923090909029304` becomes
   * `Float`: a total of the cart
 
 Here's where we stitch it all together. Given a "cart" `Array`, the first
-argument, we should first create a new consolidated cart using teh
-`consolidate_cart` method and store the returned `Hash` in a variable so we can
-use the result.
+argument, we should first create a new consolidated cart using the
+`consolidate_cart` method.
 
 We should pass the newly consolidated cart to `apply_coupons` and then send it to
 `apply_clearance`. With all the discounts applied, we should loop through the
