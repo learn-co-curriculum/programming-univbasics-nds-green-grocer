@@ -240,22 +240,19 @@ describe "Grocer" do
 
         consolidated_cart = consolidate_cart(cart)
         coupon_applied_cart = apply_coupons(consolidated_cart, [])
-        apply_clearance(coupon_applied_cart)
+        clearance_applied_cart = apply_clearance(coupon_applied_cart)
 
 
-        expect(checkout(cart, [])).to eq(2.50)
+        expect(checkout(clearance_applied_cart, [])).to eq(2.50)
       end
 
       it "calls on #apply_clearance after calling on #apply_coupons with multiple items and one coupon" do
         beer = find_item_by_name_in_collection('BEER', items)
-        cart = [find_item_by_name_in_collection('BEETS', items), beer, beer, beer]
-        c = [coupons[1]]
+        beets = find_item_by_name_in_collection('BEETS', items)
+        cart = [beets, beer, beer, beer]
+        coupon_collection = [coupons[1]]
 
-        consolidated_cart = consolidate_cart(cart)
-        coupon_applied_cart = apply_coupons(consolidated_cart, c)
-        apply_clearance(coupon_applied_cart)
-
-        expect(checkout(cart, coupons)).to eq(35.50)
+        expect(checkout(cart, coupon_collection)).to eq(35.50)
       end
 
       it "calls on #apply_clearance after calling on #apply_coupons with multiple items, coupons, and items are on clearance" do
