@@ -38,6 +38,7 @@ describe "Grocer" do
         expect(find_item_by_name_in_collection("WINE", test_cart)).to eq({ :item => "WINE" })
       end
     end
+
     describe "but when no contained Hash's :item key matches the String" do
       it "returns the matching nil" do
         expect(find_item_by_name_in_collection("AXLE GREASE", test_cart)).to be_nil
@@ -48,10 +49,10 @@ describe "Grocer" do
   describe "#consolidate_cart" do
     it "adds a count of one to each item when there are no duplicates" do
       cart = [find_item_by_name_in_collection('TEMPEH', items), find_item_by_name_in_collection('PEANUTBUTTER', items), find_item_by_name_in_collection('ALMONDS', items)]
-      result = consolidate_cart(cart)
+      consolidated_cart = consolidate_cart(cart)
       i = 0
-      while i < result.length do
-        expect(result[i][:count]).to eq(1)
+      while i < consolidated_cart.length do
+        expect(consolidated_cart[i][:count]).to eq(1)
         i += 1
       end
     end
@@ -60,13 +61,13 @@ describe "Grocer" do
       avocado = find_item_by_name_in_collection('AVOCADO', items)
       cart = [avocado, avocado, find_item_by_name_in_collection('KALE', items)]
 
-      result = consolidate_cart(cart)
-      av = find_item_by_name_in_collection("AVOCADO", result)
+      consolidated_cart = consolidate_cart(cart)
+      av = find_item_by_name_in_collection("AVOCADO", consolidated_cart)
       expect(av[:price]).to eq(3.00)
       expect(av[:clearance]).to eq(true)
       expect(av[:count]).to eq(2)
 
-      hipster_lettuce = find_item_by_name_in_collection("KALE", result)
+      hipster_lettuce = find_item_by_name_in_collection("KALE", consolidated_cart)
       expect(hipster_lettuce[:price]).to eq(3.00)
       expect(hipster_lettuce[:clearance]).to eq(false)
       expect(hipster_lettuce[:count]).to eq(1)
@@ -197,8 +198,8 @@ describe "Grocer" do
       cart = [find_item_by_name_in_collection('TEMPEH', items)]
       consolidated_cart = consolidate_cart(cart)
 
-      apply_clearance(consolidated_cart)
-      expect(consolidated_cart.first[:price]).to be_within(0.1).of(2.40)
+      clearance_applied_cart = apply_clearance(consolidated_cart)
+      expect(clearance_applied_cart.first[:price]).to be_within(0.1).of(2.40)
     end
 
     it "does not discount the price for items not on clearance" do
@@ -237,8 +238,8 @@ describe "Grocer" do
       it "calls on #apply_clearance after calling on #apply_coupons when there is only one item in the cart and no coupon" do
         cart = [find_item_by_name_in_collection('BEETS', items)]
 
-        consolidated = consolidate_cart(cart)
-        coupon_applied_cart = apply_coupons(consolidated, [])
+        consolidated_cart = consolidate_cart(cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [])
         apply_clearance(coupon_applied_cart)
 
 
@@ -250,8 +251,8 @@ describe "Grocer" do
         cart = [find_item_by_name_in_collection('BEETS', items), beer, beer, beer]
         c = [coupons[1]]
 
-        consolidated = consolidate_cart(cart)
-        coupon_applied_cart = apply_coupons(consolidated, c)
+        consolidated_cart = consolidate_cart(cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, c)
         apply_clearance(coupon_applied_cart)
 
         expect(checkout(cart, coupons)).to eq(35.50)
@@ -269,14 +270,13 @@ describe "Grocer" do
 
       it "calls on #consolidate_cart before calculating the total for two different items" do
         cart = [find_item_by_name_in_collection('CHEESE', items), find_item_by_name_in_collection('BEETS', items)]
-        consolidate_cart(cart)
-        expect(checkout(cart, [])).to eq(9.00)
+        consolidated_cart = consolidate_cart(cart)
+        expect(checkout(consolidated_cart, [])).to eq(9.00)
       end
 
       it "calls on #consolidate_cart before calculating the total for two identical items" do
         beets = find_item_by_name_in_collection('BEETS', items)
         cart = [beets, beets]
-        consolidate_cart(cart)
         expect(checkout(cart, [])).to eq(5.00)
       end
     end
