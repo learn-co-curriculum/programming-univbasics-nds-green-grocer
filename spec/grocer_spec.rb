@@ -35,6 +35,7 @@ describe "Grocer" do
     describe "and when a contained Hash's :item key matches the String" do
       it "returns the matching Hash" do
         expect(find_item_by_name_in_collection("WINE", test_cart)).to_not be_nil
+        expect(find_item_by_name_in_collection("WINE", test_cart)).to eq({ :item => "WINE" })
       end
     end
     describe "but when no contained Hash's :item key matches the String" do
