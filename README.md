@@ -207,8 +207,8 @@ price is listed as $2.50.
 * Arguments:
   * `Array`: a collection of item `Hash`es
 * Returns:
-  * The first `Array`, ***updated***. We ***should*** be editing the item
-    `Hash`es inside the first Array
+  * a ***new*** `Array` where every ***unique*** item in the original is present
+    *but* with its price reduced by 20% if it's `:clearance` values is `true`
 
 This method should discount the price of every item on clearance by twenty
 percent.

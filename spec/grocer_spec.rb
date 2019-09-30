@@ -210,12 +210,12 @@ describe "Grocer" do
         find_item_by_name_in_collection('SOY MILK', items)
       ]
       consolidated_cart = consolidate_cart(cart)
-      apply_clearance(consolidated_cart)
+      clearance_applied_cart = apply_clearance(consolidated_cart)
       clearance_prices = {"AVOCADO" => 2.40, "TEMPEH" => 2.40, "BEETS" => 2.50, "SOY MILK" => 3.60}
 
       i = 0
-      while  i < consolidated_cart.length do
-        item = consolidated_cart[i]
+      while  i < clearance_applied_cart.length do
+        item = clearance_applied_cart[i]
         expect(item[:price]).to be_within(0.1).of(clearance_prices[item[:item]])
         i += 1
       end
