@@ -161,8 +161,9 @@ haven't broken the old ones.
   * `Array`: a collection of item `Hash`es
   * `Array`: a collection of coupon `Hash`es
 * Returns:
-  * The first `Array`, ***updated***. We ***should*** be editing the item
-    `Hash`es inside the first Array based on the results in the coupon `Array`.
+  * A ***new*** `Array`. Its members will be a mix of the item `Hash`es and,
+    where applicable, the "Item w/ Coupon" `Hash`. Rules for application are
+    described below.
 
 _Example:_
 

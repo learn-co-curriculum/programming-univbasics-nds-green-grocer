@@ -82,8 +82,8 @@ describe "Grocer" do
         avocado_coupon = coupons.first
         perfect_avocado_cart = [ avocado, avocado ]
         consolidated_cart = consolidate_cart(perfect_avocado_cart)
-        apply_coupons(consolidated_cart, [avocado_coupon])
-        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, coupon_applied_cart)
         expect(found_item).to_not be_nil, "After applying valid coupons make sure you add the applied coupon Hash"
       end
 
@@ -94,8 +94,8 @@ describe "Grocer" do
         avocado_coupon = coupons.first
         perfect_avocado_cart = [ avocado, avocado ]
         consolidated_cart = consolidate_cart(perfect_avocado_cart)
-        apply_coupons(consolidated_cart, [avocado_coupon])
-        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, coupon_applied_cart)
         expect(found_item[:price]).to eq(2.50), "After applying a $5 for 2 coupon to avocadoes, the price per unit is 2.50"
       end
 
@@ -106,8 +106,8 @@ describe "Grocer" do
         avocado_coupon = coupons.first
         perfect_avocado_cart = [ avocado, avocado ]
         consolidated_cart = consolidate_cart(perfect_avocado_cart)
-        apply_coupons(consolidated_cart, [avocado_coupon])
-        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, coupon_applied_cart)
         expect(found_item[:count]).to eq(2), "The coupon's count should remain unchanged"
       end
 
@@ -117,8 +117,8 @@ describe "Grocer" do
         avocado_coupon = coupons.first
         perfect_avocado_cart = [ avocado, avocado ]
         consolidated_cart = consolidate_cart(perfect_avocado_cart)
-        apply_coupons(consolidated_cart, [avocado_coupon])
-        original_item = find_item_by_name_in_collection(item_name, perfect_avocado_cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [avocado_coupon])
+        original_item = find_item_by_name_in_collection(item_name, coupon_applied_cart)
         expect(original_item[:price]).to eq(3.00)
         expect(original_item[:count]).to eq(0)
       end
@@ -130,8 +130,8 @@ describe "Grocer" do
         avocado_coupon = coupons.first
         perfect_avocado_cart = [ avocado, avocado ]
         consolidated_cart = consolidate_cart(perfect_avocado_cart)
-        apply_coupons(consolidated_cart, [avocado_coupon])
-        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, consolidated_cart)
+        coupon_applied_cart = apply_coupons(consolidated_cart, [avocado_coupon])
+        found_item = find_item_by_name_in_collection(item_with_coupon_applied_name, coupon_applied_cart)
         expect(found_item[:clearance]).to eq(true)
       end
     end
@@ -161,12 +161,12 @@ describe "Grocer" do
         consolidated_cart = consolidate_cart(cart)
         test_coupons = [coupons.first, coupons.last]
 
-        apply_coupons(consolidated_cart, test_coupons)
+        coupon_applied_cart = apply_coupons(consolidated_cart, test_coupons)
 
-        cheese = find_item_by_name_in_collection("CHEESE", consolidated_cart)
-        cheese_wc = find_item_by_name_in_collection("CHEESE W/COUPON", consolidated_cart)
-        avocado = find_item_by_name_in_collection("AVOCADO", consolidated_cart)
-        avocado_wc = find_item_by_name_in_collection("AVOCADO W/COUPON", consolidated_cart)
+        cheese = find_item_by_name_in_collection("CHEESE", coupon_applied_cart)
+        cheese_wc = find_item_by_name_in_collection("CHEESE W/COUPON", coupon_applied_cart)
+        avocado = find_item_by_name_in_collection("AVOCADO", coupon_applied_cart)
+        avocado_wc = find_item_by_name_in_collection("AVOCADO W/COUPON", coupon_applied_cart)
 
         expect(cheese[:price]).to eq(6.50)
         expect(avocado[:price]).to eq(3.00)
@@ -182,9 +182,9 @@ describe "Grocer" do
         cheese = find_item_by_name_in_collection('CHEESE', items)
         cart = [cheese, cheese]
         consolidated_cart = consolidate_cart(cart)
-        apply_coupons(consolidated_cart, [])
+        coupon_applied_cart = apply_coupons(consolidated_cart, [])
 
-        cheese_in_cart = find_item_by_name_in_collection("CHEESE", cart)
+        cheese_in_cart = find_item_by_name_in_collection("CHEESE", coupon_applied_cart)
 
         expect(cheese_in_cart[:price]).to eq(6.50)
         expect(cheese_in_cart[:count]).to eq(2)
@@ -242,8 +242,8 @@ describe "Grocer" do
         cart = [find_item_by_name_in_collection('BEETS', items)]
 
         consolidated = consolidate_cart(cart)
-        coupons_applied = apply_coupons(consolidated, [])
-        apply_clearance(coupons_applied)
+        coupon_applied_cart = apply_coupons(consolidated, [])
+        apply_clearance(coupon_applied_cart)
 
 
         expect(checkout(cart, [])).to eq(2.50)
@@ -255,8 +255,8 @@ describe "Grocer" do
         c = [coupons[1]]
 
         consolidated = consolidate_cart(cart)
-        coupons_applied = apply_coupons(consolidated, c)
-        apply_clearance(coupons_applied)
+        coupon_applied_cart = apply_coupons(consolidated, c)
+        apply_clearance(coupon_applied_cart)
 
         expect(checkout(cart, coupons)).to eq(35.50)
       end
