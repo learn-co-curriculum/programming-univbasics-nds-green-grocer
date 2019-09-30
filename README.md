@@ -28,17 +28,16 @@ So let's get to it!
 
 ## Shopping
 
-Think for moment about what it's like to shop at a grocery store. As you walk
+Think for a moment about what it's like to shop at a grocery store. As you walk
 through the store, you put the items you want to buy into your cart. Your cart,
 then, becomes a _collection_ of grocery items. Every one of those grocery items
 has specific _attributes_: for example, its price and whether or not it's on
 clearance. You can also have multiples of the same item in your cart, and
-chances are they will be all mixed together in no particular order or
-structure.
+chances are they will be all mixed in no particular order or structure.
 
 > **Stop and Reflect**: When you read the paragraph above, did you hear the
 > suggestion of an `Array` for a collection? Did the word _attributes_ suggest to
-> you an attribute / value pair, like a `Hash`? If that's not happening for you
+> you an attribute/value pair, like a `Hash`? If that's not happening for you
 > at this moment, you should go back and review the first 4 lessons of this
 > module.
 
@@ -104,11 +103,11 @@ create.
 ### Write the `find_item_by_name_in_collection`
 
 * Arguments:
-  * `String`: name of item to find
+  * `String`: name of the item to find
   * `Array`: a collection of items to search through
 * Returns:
   * `nil` if no match is found
-  * the matching `Hash` of a match between desired name a given Hash's :item
+  * the matching `Hash` of a match between desired name a given `Hash`'s :item
     key is found
 
 ### Write the `consolidate_cart` Method
@@ -152,7 +151,7 @@ out in a digestible form.
 
 You can apply this technique as you work through the various "First Order"
 methods. Once you get a section working, be sure to run `learn` to make sure
-that previous sections _remained_ working. This is called "Test Driven
+that previous sections _remained_ working. This is called "Test-Driven
 Development."  We can safely add new features because our tests tell us we
 haven't broken the old ones.
 
@@ -257,8 +256,9 @@ We should pass the newly consolidated cart to `apply_coupons` and then send it t
 by its count and accumulate that to a grand total.
 
 As one last wrinkle, our grocery store offers a deal for customers buying lots
-of items: if, after all coupons and discounts, the cart's total is over $100,
-the customer gets an additional 10% off. Apply this discount when appropriate.
+of items. If, after the coupons and discounts are applied, the cart's total is
+over $100, the customer gets an additional 10% off. Apply this discount when
+appropriate.
 
 ## Conclusion
 
