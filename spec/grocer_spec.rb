@@ -140,10 +140,9 @@ describe "Grocer" do
       it "doesn't break if the coupon doesn't apply to any items" do
         cheese = find_item_by_name_in_collection('CHEESE', items)
         cart = [cheese, cheese]
-        consolidated_cart = consolidate_cart(cart)
 
-        apply_coupons(consolidated_cart, [coupons.first])
-        cheese_item = find_item_by_name_in_collection("CHEESE", cart)
+        consolidated_cart = consolidate_cart(cart)
+        cheese_item = find_item_by_name_in_collection("CHEESE", consolidated_cart)
 
         expect(cheese_item[:price]).to eq(6.50)
         expect(cheese_item[:count]).to eq(2)
@@ -231,9 +230,6 @@ describe "Grocer" do
 
       it "calls on #apply_coupons after calling on #consolidate_cart when there is only one item in the cart" do
         cart = [find_item_by_name_in_collection('BEETS', items)]
-
-        consolidated = consolidate_cart(cart)
-        apply_coupons(consolidated, [])
 
         expect(checkout(cart, [])).to eq(2.50)
       end
