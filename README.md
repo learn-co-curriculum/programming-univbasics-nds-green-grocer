@@ -2,11 +2,8 @@
 
 ## Learning Goals
 
-- Access and iterate over hashes
-- Translate data from arrays to hashes
-- Translate data from hashes to other hashes
-- Count repeat items in a hash
-- Perform calculations based on hash data
+- Translate data from AoH to AoH
+- Perform calculations based on AoH data
 
 ## Introduction
 
