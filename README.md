@@ -83,7 +83,9 @@ Carts are `Array`s of items.
 
 ## Coupon
 
+```ruby
 {:item => "AVOCADO", :num => 2, :cost => 5.00}
+```
 
 A coupon is represented as a `Hash`. Coupons only apply if the shopper has
 purchased `:num` or more of the coupon.
@@ -112,13 +114,13 @@ create.
 ### Write the `consolidate_cart` Method
 
 * Arguments:
-  * `Array`: a collection of items Hashes
+  * `Array`: a collection of item Hashes
 * Returns:
-  * a ***new*** `Array`` where every ***unique*** item in the original is present
-    * Every item in this new `Array` should have a :count attribute
-    * Every item's :count will be _at least_ one
+  * a ***new*** `Array` where every ***unique*** item in the original is present
+    * Every item in this new `Array` should have a `:count` attribute
+    * Every item's `:count` will be _at least_ one
     * Where multiple instances of a given item are seen, the instance in the
-      new `Array` will have its :count increased
+      new `Array` will have its `:count` increased
 
 _Example_:
 
@@ -157,7 +159,7 @@ haven't broken the old ones.
 ### Write the `apply_coupons` Method
 
 * Arguments:
-  * `Array`: a collection of items `Hash`es
+  * `Array`: a collection of item `Hash`es
   * `Array`: a collection of coupon `Hash`es
 * Returns:
   * The first `Array`, ***updated***. We ***should*** be editing the item
@@ -192,7 +194,7 @@ then `apply_coupons` should change the first Array to look like:
 
 In this case, we have a 2 for $5.00 coupon and 3 avocados counted in the
 consolidated cart. Since the coupon only applies to 2 avocados, the cart shows
-there is one remaining avocado at full-price $3.00 and a count of _2_
+there is one remaining avocado at full-price, $3.00, and a count of _2_
 discounted avocados.
 
 Note: we want to be consistent in the way our data is structured, so each item
@@ -203,7 +205,7 @@ price is listed as $2.50.
 ### Write the `apply_clearance` Method
 
 * Arguments:
-  * `Array`: a collection of items `Hash`es
+  * `Array`: a collection of item `Hash`es
 * Returns:
   * The first `Array`, ***updated***. We ***should*** be editing the item
     `Hash`es inside the first Array
@@ -240,15 +242,17 @@ helpful here to make sure your values align. `2.4900923090909029304` becomes
 ### Write the `checkout` Method
 
 * Arguments:
-  * `Array`: a collection of items `Hash`es
+  * `Array`: a collection of item `Hash`es
   * `Array`: a collection of coupon `Hash`es
 * Returns:
   * `Float`: a total of the cart
 
 Here's where we stitch it all together. Given a "cart" `Array`, the first
-argument, we should return a new consolidated cart.
+argument, we should first create a new consolidated cart using teh
+`consolidate_cart` method and store the returned `Hash` in a variable so we can
+use the result.
 
-We should pass that consolidated cart to `apply_coupons` and then send it to
+We should pass the newly consolidated cart to `apply_coupons` and then send it to
 `apply_clearance`. With all the discounts applied, we should loop through the
 "consolidated and discounts-applied" cart and multiply each item Hash's price
 by its count and accumulate that to a grand total.
