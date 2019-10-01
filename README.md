@@ -162,7 +162,7 @@ haven't broken the old ones.
   * `Array`: a collection of coupon `Hash`es
 * Returns:
   * A ***new*** `Array`. Its members will be a mix of the item `Hash`es and,
-    where applicable, the "Item w/ Coupon" `Hash`. Rules for application are
+    where applicable, the "ITEM W/COUPON" `Hash`. Rules for application are
     described below.
 
 _Example:_
